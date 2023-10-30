@@ -1,0 +1,8 @@
+ID: 148889179		Name: Tanzinaa		CGPA: 3.88
+
+No	CourseCode	CourseName	Section	Credit	Fee
+2	CSE215	Java		4	26000
+3	CSE311	DBMS		3	19500
+4	CSE331	Microprocessor		3	19500
+_________________________________________________________________
+				 Total Payable amount = 65000

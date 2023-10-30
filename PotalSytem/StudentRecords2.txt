@@ -1,0 +1,12 @@
+ID	NAME	Password	CGPA	GENDER
+35138131	Tanzina    12345	3.4    Female
+12345	Anika	12345	2.4    Female
+456789965	harry    11111    3.6	Male
+8879109809	Allen    45667    2    Male
+687924980	Potter    677865    3.88	Male
+648190809	Marry    dhyt67    4.55    Female
+261709081	Aryan    gghh    4.0	Male
+889779901	alif    gghj567    2.0	Male
+1344ed	bfjksnk	had	3.2	Female
+1932448	Mahadi	abjnja	3.2	Male
+1234567	Tazreen	123	3	Female

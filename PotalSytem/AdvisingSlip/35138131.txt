@@ -1,0 +1,8 @@
+ID: 35138131		Name: Tanzina		CGPA: 3.4
+
+No	CourseCode	CourseName	Section	Credit	Fee
+1	CSE225	data structure	7	3	19500
+2	CSE311	DBMS	6	3	19500
+3	CSE445	ML	2	3	19500
+_________________________________________________________________
+				 Total Payable amount = 58500

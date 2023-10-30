@@ -1,0 +1,8 @@
+ID: 889779901		Name: alif		CGPA: 2.0
+No	CourseCode	CourseName	Section	Credit	Fee
+1	CSE115	C programming		4	26000
+3	CSE215	Java		4	26000
+4	EEE154	AutoCaD		1	6500
+
+_________________________________________________________________
+				 Total Payable amount = 58500

@@ -1,0 +1,3 @@
+No	CourseCode	CourseName	Section	Credit	Fee1	CSE225	data structure		3	195002	CSE373	Algorithm		3	195003	CSE331	Microprocessor		3	19500
+_________________________________________________________________
+				 Total Payable amount = 58500

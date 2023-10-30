@@ -1,0 +1,8 @@
+No	CourseCode	CourseName	Section	Credit	Fee
+1	CSE115	C programming		4	26000
+2	CSE311	DBMS		3	19500
+3	CSE215	Java		4	26000
+4	CSE331	Microprocessor		3	19500
+
+_________________________________________________________________
+				 Total Payable amount = 91000

@@ -1,0 +1,9 @@
+ID: 1234567		Name: Tazreen		CGPA: 3
+
+No	CourseCode	CourseName	Section	Credit	Fee
+1	CSE115	C programming	3	4	26000
+3	EEE154	AutoCaD	4	1	6500
+4	CSE215	Java	1	4	26000
+5	CSE331	Microprocessor	5	3	19500
+_________________________________________________________________
+				 Total Payable amount = 78000
