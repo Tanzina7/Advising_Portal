@@ -1,0 +1,8 @@
+ID: 1620199		Name: Tanzina		CGPA: 3.7
+
+No	CourseCode	CourseName	Section	Credit	Fee
+1	CSE115	C_programming	4	4	26000
+2	CSE215	Java	3	4	26000
+3	CSE311	DBMS	5	3	19500
+_________________________________________________________________
+				 Total Payable amount = 71500

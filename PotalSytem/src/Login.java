@@ -12,7 +12,8 @@ public class Login {
 
     public Login()
     {
-        f = new JFrame("Login");
+        //JFrame
+                f = new JFrame("Login");
 
 
 
@@ -37,7 +38,7 @@ public class Login {
         //b.setPreferredSize(new Dimension(150, 50));
         bb.setBackground(Color.ORANGE);
         bb.setForeground(Color.BLUE);
-        Font customFont2 = new Font("Times New Roman", Font.BOLD, 16);
+        Font customFont2 = new Font("Times New Roman", Font.BOLD, 20);
         bb.setFont(customFont2);
         bb.setBounds(260,200,100,50);
         f.add(bb);
@@ -62,7 +63,7 @@ public class Login {
                         String CGPA = sc.next();
                         String GENDER = sc.next();
 
-                        if(ID.equals(id) && Password.equals(pw))
+                        if(ID.equalsIgnoreCase(id) && Password.equalsIgnoreCase(pw))
                         {
                             nmm = NAME;
                             idd = ID;
@@ -79,7 +80,7 @@ public class Login {
                     sc.close();
 
                     if(flag == false)
-                        JOptionPane.showMessageDialog(null, "Wrong ID or Password","ERROR", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(f, "Wrong ID or Password","ERROR", JOptionPane.ERROR_MESSAGE);
                 }
                 catch(IOException ee)
                 {

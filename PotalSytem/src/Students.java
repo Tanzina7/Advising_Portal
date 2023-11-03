@@ -75,7 +75,7 @@ public class Students extends Person
         //b.setPreferredSize(new Dimension(150, 50));
         bb.setBackground(Color.ORANGE);
         bb.setForeground(Color.BLUE);
-        Font customFont2 = new Font("Times New Roman", Font.BOLD, 16);
+        Font customFont2 = new Font("Times New Roman", Font.BOLD, 20);
         bb.setFont(customFont2);
         bb.setBounds(260,350,100,50);
         f.add(bb);
@@ -119,7 +119,7 @@ public class Students extends Person
                         //double cg1 = sc.nextDouble();
                         String  gender1 = sc.next();
 
-                        if(Id_Check.equals(id1))
+                        if(Id_Check.equalsIgnoreCase(id1))
                         {
                             found = true;
                             break;
@@ -153,7 +153,7 @@ public class Students extends Person
                     }
                     else
                     {
-                        JOptionPane.showMessageDialog(null, "ID Already Exists.\n LOGIN instead","Duplicate ID", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(f, "ID Already Exists.\n LOGIN instead","Duplicate ID", JOptionPane.ERROR_MESSAGE);
                         f.dispose();
                         Dash d = new Dash();
                     }

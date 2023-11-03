@@ -10,14 +10,9 @@ public class Signup
     //static String name, id, cg;
     //Students st;
     public Signup()
-    //{}
-    //public Signup(Boolean b)
     {
       Students s = new Students();
     }
 
-    public static void main(String[] args) {
-        Signup s = new Signup();
-        //Signup s = new Signup(true);
-    }
+
 }

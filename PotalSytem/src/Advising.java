@@ -1,12 +1,18 @@
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+import javax.swing.table.*;
 
 public class Advising
         //extends Signup
@@ -15,6 +21,8 @@ public class Advising
     JFrame f;
     public Advising()
     {
+        //JFrame f;
+
         Login su = new  Login();
         su.f.dispose();
 
@@ -34,18 +42,46 @@ public class Advising
         l3.setText("CGPA: " +su.cgg);
 
 
+        int ncourse = 0;
+        //reading all the courses from the CouseList File and loading it on to an array
+        try{
+            File file1 = new File("CourseList.txt");
+            Scanner sc7 = new Scanner( file1);
 
-        Course[] arrO = new Course[8];
-        arrO[0] = new Course("CSE115", "C programming", 4);
-        arrO[1] = new Course("CSE215", "Java", 4);
-        arrO[2] = new Course("CSE225", "data structure", 3);
-        arrO[3] = new Course("CSE311", "DBMS", 3);
-        arrO[4] = new Course("CSE373", "Algorithm", 3);
-        arrO[5] = new Course("CSE331", "Microprocessor", 3);
-        arrO[6] = new Course("CSE445", "ML", 3);
-        arrO[7] = new Course("EEE154", "AutoCaD", 1);
+            while(sc7.hasNextLine())
+            {
+                sc7.nextLine();
+                ncourse++;
+            }
+            sc7.close();
+
+        }
+        catch(IOException e5)
+        {
+            e5.printStackTrace();
+        }
+        Course[] arrO = new Course[ncourse];
+
+        try{
+            File file2 = new File("CourseList.txt");
+            Scanner sc8 = new Scanner( file2);
+            for(int i = 0; i< ncourse; i++)
+            {
+                String oneLine = sc8.nextLine();
+                String[] lineArr = oneLine.split("\t");
+                arrO[i]= new Course(lineArr[0], lineArr[1], Integer.valueOf(lineArr[2]), Integer.valueOf(lineArr[3]));
+            }
+
+            sc8.close();
 
 
+        }
+        catch(IOException e5)
+        {
+            e5.printStackTrace();
+        }
+
+        //now making the JComboBox from info of the array that was made from file
         JFrame f = new JFrame("Courses");
         String[] c = new String[arrO.length];
         for (int i = 0; i < c.length; i++) {
@@ -53,6 +89,7 @@ public class Advising
         }
 
         JComboBox<String> cb = new JComboBox<>(c);
+
         cb.setBounds(100, 100, 90, 30);
         cb.setBackground(Color.yellow);
         cb.setForeground(Color.red);
@@ -61,18 +98,18 @@ public class Advising
         cb.setBorder(BorderFactory.createLineBorder(Color.blue, 3));
         f.add(cb);
 
-        JComboBox<String> sec = new JComboBox<>();
-        sec.addItem("1");
-        sec.addItem("2");
-        sec.addItem("3");
-        sec.addItem("4");
-        sec.addItem("5");
-        sec.addItem("6");
-        sec.addItem("7");
 
 
+        //List to add all the sections of each course in a jcombobox
+        List<TableCellEditor> editors = new ArrayList<TableCellEditor>(ncourse);
+        String[] currArray0 = {"Section"};
+        JComboBox jbx0 = new JComboBox(currArray0);
+        DefaultCellEditor dce0 = new DefaultCellEditor(jbx0);
+        editors.add(dce0);
+
+        //creating the table
         DefaultTableModel model = new DefaultTableModel();
-        model.addColumn("No");
+        model.addColumn("");
         model.addColumn("CourseCode");
         model.addColumn("CourseName");
         model.addColumn("Section");
@@ -144,12 +181,14 @@ public class Advising
                 //String selectedCode = cb.getItemAt(cb.getSelectedIndex());
                 String SelectedName = "";
                 String SelectedCredit = "";
+                int TotalSec = 0;
                 int Credit = 0;
                 //int n = 0;
                 for (int i = 0; i < arrO.length; i++) {
                     if (selectedCode.equals(arrO[i].getCode())) {
                         SelectedName = arrO[i].getName();
                         SelectedCredit = Integer.toString(arrO[i].getCredit());
+                        TotalSec = arrO[i].getTotal_section();
                         Credit = arrO[i].getCredit();
                         // n++;
                         count[0] = count[0] + 1;
@@ -162,46 +201,67 @@ public class Advising
 
                 // Add the new row data to the DefaultTableModel
                 model.addRow(rowData);
+
+                ///adding section jcombobox for that course
+                String[] currArray = new String[TotalSec] ;
+                for(int j =0; j< TotalSec; j++)
+                {
+                    currArray[j] = String.valueOf(j+1);
+                    System.out.print(currArray[j]+"\t");
+                }
+                System.out.println("\n");
+                JComboBox jbx = new JComboBox(currArray);
+
+                DefaultCellEditor dce = new DefaultCellEditor(jbx);
+                editors.add(dce);
+
             }
             else
             {
-                JOptionPane.showMessageDialog(null, "You Already have taken "+selectedCode, "Duplicate Course", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(f, "You Already have taken "+selectedCode, "Duplicate Course", JOptionPane.WARNING_MESSAGE);
             }
-
-
-
-
-
-
-
-
-
-            // Create a custom cell editor for the "Country" column
-
-
-
-
         });
 
         // Create the JTable with the DefaultTableModel
-        JTable jt = new JTable(model);
-        jt.setBounds(50, 250, 500, 150);
+        JTable jt = new JTable(model) {
+            //  Determine editor to be used by row
+            public TableCellEditor getCellEditor(int row, int column) {
+                int modelColumn = convertColumnIndexToModel(column);
+
+                if (modelColumn == 3 && row>0 && row < model.getRowCount())
+                    return editors.get(row);
+                else
+                    return super.getCellEditor(row, column);
+            }
+        };
+
+        //setting custom width of 2 columns
+        // Get the TableColumnModel and the TableColumn for the first column
+        TableColumnModel columnModel = jt.getColumnModel();
+        TableColumn column0 = columnModel.getColumn(0);
+        TableColumn column2 = columnModel.getColumn(2);
+
+        // Set the preferred width for the first column
+        int preferredWidth0 = 40;
+        column0.setPreferredWidth(preferredWidth0);
+        int preferredWidth2 = 130;
+        column2.setPreferredWidth(preferredWidth2);
+
+        // Update the JTable's layout
+        jt.revalidate();
+        jt.repaint();
+
+
+        //setting a color to the 1st row of the table
+        // Add custom TableCellRenderer to color the first row
+        jt.setDefaultRenderer(Object.class, new CustomRowColorRenderer());
+
+        jt.setBounds(50, 250, 550, 150);
         f.add(jt);
 
+        //JScrollPane scrollPane = new JScrollPane(jt);
+       // f.getContentPane().add(scrollPane);
 
-
-        // Create a custom cell editor for the "Section" column
-        jt.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(sec));
-
-        // Create a custom cell renderer for the "Country" column
-        jt.getColumnModel().getColumn(3).setCellRenderer(new DefaultTableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                JLabel label = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                label.setHorizontalAlignment(SwingConstants.CENTER); // Center-align the text
-                return label;
-            }
-        });
 
         // f.add(new JScrollPane(jt));
 
@@ -259,11 +319,6 @@ public class Advising
                                  }
                              }
         );
-
-
-
-
-
 
 
         JButton deleteButton = new JButton("Delete");
@@ -357,16 +412,54 @@ public class Advising
         f.setVisible(true);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-
-
-
-
-
     }
 
 
 
+    //inner class to set each cell of one column of the jtable into jcombobox
+    class ComboBoxRenderer extends JComboBox implements TableCellRenderer
+    {
 
+        public ComboBoxRenderer()
+        {
+            setBorder(new EmptyBorder(0, 0, 0, 0));
+        }
+
+        public Component getTableCellRendererComponent(
+                JTable table, Object value, boolean isSelected,
+                boolean hasFocus, int row, int column)
+        {
+//          setFocusable(false);
+            removeAllItems();
+            addItem( value );
+            return this;
+        }
+    }
+
+
+
+    // Custom TableCellRenderer to color the first row
+    static class CustomRowColorRenderer extends DefaultTableCellRenderer
+    {
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
+        {
+            Component component;
+
+
+            if (row == 0) {
+                component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                component.setBackground(Color.CYAN);
+            }
+            else
+            {
+                component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                component.setBackground(Color.WHITE);
+            }
+
+            return component;
+        }
+    }
 
 
     public static void main(String[] args) {
